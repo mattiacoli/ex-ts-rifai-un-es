@@ -19,27 +19,32 @@ type Recipe = {
 
 
 function isRecipe(recipe: unknown): recipe is Recipe {
-  return typeof recipe === 'object' && recipe != null &&
-    typeof recipe.id === 'number' &&
-    typeof recipe.name === 'string' &&
-    Array.isArray(recipe.ingredients) && recipe.ingredients.every((item: any) => typeof item === 'string') &&
-    Array.isArray(recipe.instructions) && recipe.instructions.every((item: any) => typeof item === 'string') &&
-    typeof recipe.prepTimeMinutes === 'number' &&
-    typeof recipe.cookTimeMinutes === 'number' &&
-    typeof recipe.servings === 'number' &&
-    typeof recipe.difficulty === 'string' &&
-    typeof recipe.cuisine === 'string' &&
-    typeof recipe.caloriesPerServing === 'number' &&
-    Array.isArray(recipe.tags) && recipe.tags.every((item: any) => typeof item === 'string') &&
-    typeof recipe.userId === 'number' &&
-    typeof recipe.image === 'string' &&
-    typeof recipe.rating === 'number' &&
-    typeof recipe.reviewCount === 'number' &&
-    Array.isArray(recipe.mealType) && recipe.mealType.every((item: any) => typeof item === 'string');
+
+  if (recipe && typeof recipe === 'object' && recipe != null &&
+    "id" in recipe && typeof recipe.id === 'number' &&
+    "name" in recipe && typeof recipe.name === 'string' &&
+    "ingredients" in recipe && Array.isArray(recipe.ingredients) && recipe.ingredients.every((item: any) => typeof item === 'string') &&
+    "instructions" in recipe && Array.isArray(recipe.instructions) && recipe.instructions.every((item: any) => typeof item === 'string') &&
+    "prepTimeMinutes" in recipe && typeof recipe.prepTimeMinutes === 'number' &&
+    "cookTimeMinutes" in recipe && typeof recipe.cookTimeMinutes === 'number' &&
+    "servings" in recipe && typeof recipe.servings === 'number' &&
+    "difficulty" in recipe && typeof recipe.difficulty === 'string' &&
+    "cuisine" in recipe && typeof recipe.cuisine === 'string' &&
+    "caloriesPerServing" in recipe && typeof recipe.caloriesPerServing === 'number' &&
+    "tags" in recipe && Array.isArray(recipe.tags) && recipe.tags.every((item: any) => typeof item === 'string') &&
+    "userId" in recipe && typeof recipe.userId === 'number' &&
+    "image" in recipe && typeof recipe.image === 'string' &&
+    "rating" in recipe && typeof recipe.rating === 'number' &&
+    "reviewCount" in recipe && typeof recipe.reviewCount === 'number' &&
+    "mealType" in recipe && Array.isArray(recipe.mealType) && recipe.mealType.every((item: any) => typeof item === 'string')) {
+    return true
+  }
+
+  return false
 }
 
 
-async function getChefBirthday(id: number): Promise<string> {
+async function getChefBirthday(id: number): Promise<string | null> {
 
   try {
     const responseRecipe = await fetch(`https://dummyjson.com/recipes/${id}`)
@@ -67,6 +72,8 @@ async function getChefBirthday(id: number): Promise<string> {
       console.error(error.message)
     }
   }
+
+  return null
 
 }
 
